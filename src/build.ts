@@ -113,6 +113,7 @@ export const buildAuctionOrder = (
     takerAssetAddress: string,
     makerAddress: string,
     makerAmount: string,
+    nonce: number
     permit?: string,
   },
   auction: {
@@ -134,7 +135,7 @@ export const buildAuctionOrder = (
     takerAmount: auction.maxTakerAmount,
     permit: order.permit,
     receiver: helperAddress,
-    predicate: generatePredicate(helperAddress, order.makerAddress, 0, auction.endedAt),
+    predicate: generatePredicate(helperAddress, order.makerAddress, order.nonce, auction.endedAt),
   });
 
   if (auction.pricingFunction === AuctionPricingFunction.LINEAR) {
