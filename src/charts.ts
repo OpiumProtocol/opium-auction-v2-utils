@@ -48,6 +48,31 @@ export function getChartData(
     return points;
 }
 
+export function getCurrentPrice(
+    minimumPrice: number,
+    maximumPrice: number,
+    startsAt: number,
+    endsAt: number,
+    func: AuctionFunction,
+    currentTime: number) {
+    const startDate = new Date(startsAt).getTime();
+    const endDate = new Date(endsAt).getTime();
+
+    const startSeconds = 0;
+    const endSeconds = endDate - startDate;
+    const currentSecond = new Date(currentTime).getTime() - startDate;
+
+    switch (func) {
+        case AuctionFunction.linear:
+            const { p, q } = getLinearFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
+            return calculateLinearFunctionAtPoint(p, q, currentSecond);
+
+        case AuctionFunction.exponential:
+            const { a, b } = getExponentialFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
+            return calculateExponentialFunctionAtPoint(a, b, currentSecond);
+    }
+}
+
 function getExponentialFunctionParams(
     minimumPrice: number,
     maximumPrice: number,
