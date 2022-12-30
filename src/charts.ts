@@ -10,6 +10,7 @@ export function getChartData(
     if (pointsNumber <= 0) {
         throw new Error('Points number cannot be 0 or negative value')
     }
+    
     const points: Array<{ x: number; y: number }> = [];
 
     const startDate = new Date(startsAt).getTime();
@@ -25,7 +26,7 @@ export function getChartData(
             for (let x = startSeconds; x <= endSeconds; x += timeInterval) {
                 const y = calculateLinearFunctionAtPoint(p, q, x);
                 points.push({
-                    x: startDate + x * 1000,
+                    x: startDate + x * pointsNumber,
                     y,
                 });
             }
@@ -37,7 +38,7 @@ export function getChartData(
             for (let x = startSeconds; x <= endSeconds; x += timeInterval) {
                 const y = calculateExponentialFunctionAtPoint(a, b, x);
                 points.push({
-                    x: startDate + x * 1000,
+                    x: startDate + x * pointsNumber,
                     y,
                 });
             }
@@ -78,8 +79,9 @@ function getExponentialFunctionParams(
     maximumPrice: number,
     startSeconds: number,
     endSeconds: number) {
-    // minimum price cannot be 0
-    minimumPrice = minimumPrice || 0.0000001;
+    if (minimumPrice === 0 || minimumPrice == null) {
+        return { a: 0, b: 0 };
+    }
 
     const b = Math.pow(
         maximumPrice / minimumPrice,
