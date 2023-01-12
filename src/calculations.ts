@@ -1,6 +1,6 @@
 import { LimitOrder, LimitOrderBuilder, LimitOrderProtocolFacade } from "@1inch/limit-order-protocol";
 
-export async function GetRemainingPrice(options: {
+export async function getRemainingAmount(options: {
     limitOrderProtocolFacade: LimitOrderProtocolFacade,
     limitOrderBuilder: LimitOrderBuilder,
     limitOrder: LimitOrder,
