@@ -1,11 +1,11 @@
-import { AuctionFunction } from "./types";
+import { AuctionPricingFunction } from "./build";
 
 export function getChartData(
     minimumPrice: number,
     maximumPrice: number,
     startsAt: number,
     endsAt: number,
-    func: AuctionFunction,
+    func: AuctionPricingFunction,
     pointsNumber: number = 1000) {
     if (pointsNumber <= 0) {
         throw new Error('Points number cannot be 0 or negative value')
@@ -21,7 +21,7 @@ export function getChartData(
     const timeInterval = Math.floor((endSeconds - startSeconds) / pointsNumber);
 
     switch (func) {
-        case AuctionFunction.linear:
+        case AuctionPricingFunction.LINEAR:
             const { p, q } = getLinearFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
             for (let x = startSeconds; x <= endSeconds; x += timeInterval) {
                 const y = calculateLinearFunctionAtPoint(p, q, x);
@@ -33,7 +33,7 @@ export function getChartData(
 
             break;
 
-        case AuctionFunction.exponential:
+        case AuctionPricingFunction.EXPONENTIAL:
             const { a, b } = getExponentialFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
             for (let x = startSeconds; x <= endSeconds; x += timeInterval) {
                 const y = calculateExponentialFunctionAtPoint(a, b, x);
@@ -54,7 +54,7 @@ export function getCurrentPrice(
     maximumPrice: number,
     startsAt: number,
     endsAt: number,
-    func: AuctionFunction,
+    func: AuctionPricingFunction,
     currentTime: number) {
     const startDate = new Date(startsAt).getTime();
     const endDate = new Date(endsAt).getTime();
@@ -64,11 +64,11 @@ export function getCurrentPrice(
     const currentSecond = new Date(currentTime).getTime() - startDate;
 
     switch (func) {
-        case AuctionFunction.linear:
+        case AuctionPricingFunction.LINEAR:
             const { p, q } = getLinearFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
             return calculateLinearFunctionAtPoint(p, q, currentSecond);
 
-        case AuctionFunction.exponential:
+        case AuctionPricingFunction.EXPONENTIAL:
             const { a, b } = getExponentialFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
             return calculateExponentialFunctionAtPoint(a, b, currentSecond);
     }
