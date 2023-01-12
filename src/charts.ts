@@ -6,7 +6,8 @@ export function getChartData(
     startsAt: number,
     endsAt: number,
     func: AuctionPricingFunction,
-    pointsNumber: number = 1000) {
+    pointsNumber: number = 1000,
+    amplifier: number = 1) {
     if (pointsNumber <= 0) {
         throw new Error('Points number cannot be 0 or negative value')
     }
@@ -36,7 +37,7 @@ export function getChartData(
         case AuctionPricingFunction.EXPONENTIAL:
             const { a, b } = getExponentialFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
             for (let x = startSeconds; x <= endSeconds; x += timeInterval) {
-                const y = calculateExponentialFunctionAtPoint(a, b, x);
+                const y = calculateExponentialFunctionAtPoint(a, b, x, amplifier);
                 points.push({
                     x: startDate + x * pointsNumber,
                     y,
@@ -55,7 +56,8 @@ export function getCurrentPrice(
     startsAt: number,
     endsAt: number,
     func: AuctionPricingFunction,
-    currentTime: number) {
+    currentTime: number,
+    amplifier: number = 1) {
     const startDate = new Date(startsAt).getTime();
     const endDate = new Date(endsAt).getTime();
 
@@ -70,7 +72,7 @@ export function getCurrentPrice(
 
         case AuctionPricingFunction.EXPONENTIAL:
             const { a, b } = getExponentialFunctionParams(minimumPrice, maximumPrice, startSeconds, endSeconds);
-            return calculateExponentialFunctionAtPoint(a, b, currentSecond);
+            return calculateExponentialFunctionAtPoint(a, b, currentSecond, amplifier);
     }
 }
 
@@ -92,8 +94,8 @@ function getExponentialFunctionParams(
     return { a, b };
 }
 
-function calculateExponentialFunctionAtPoint(a: number, b: number, x: number) {
-    const y = a * Math.pow(b, x);
+function calculateExponentialFunctionAtPoint(a: number, b: number, x: number, amplifier: number) {
+    const y = a * Math.pow(b, x * amplifier);
     return y;
 }
 
