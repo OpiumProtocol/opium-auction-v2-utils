@@ -2,6 +2,12 @@ import { ethers, BigNumberish } from "ethers";
 
 import { LimitOrderBuilder, LimitOrder } from "@1inch/limit-order-protocol";
 
+import Errors from "./errors";
+import {
+  AuctionPricingFunction, AuctionPricingDirection,
+  BuildOrderParams, BuildAuctionParams
+} from "./types";
+
 const abiCoder = new ethers.utils.AbiCoder();
 
 const ABI = [
@@ -95,37 +101,11 @@ const generatePredicate = (helperAddress: string, makerAddress: string, nonce: n
 }
 
 /** External */
-export enum AuctionPricingFunction {
-  LINEAR,
-  EXPONENTIAL
-}
-
-export enum AuctionPricingDirection {
-  INCREASING,
-  DECREASING
-}
-
 export const buildAuctionOrder = (
   helperAddress: string,
   limitOrderBuilder: LimitOrderBuilder,
-  order: {
-    makerAssetAddress: string,
-    takerAssetAddress: string,
-    makerAddress: string,
-    makerAmount: string,
-    nonce: number
-    permit?: string,
-  },
-  auction: {
-    pricingFunction: AuctionPricingFunction,
-    pricingDirection: AuctionPricingDirection,
-    partialFill: boolean,
-    minTakerAmount: string,
-    maxTakerAmount: string,
-    startedAt: number,
-    endedAt: number,
-    amplifier?: number
-  }
+  order: BuildOrderParams,
+  auction: BuildAuctionParams
 ) => {
   const makerLimitOrder = limitOrderBuilder.buildLimitOrder({
     makerAssetAddress: order.makerAssetAddress,
@@ -183,7 +163,7 @@ export const buildAuctionOrder = (
       auction.amplifier ?? 1
     )
   } else {
-    throw new Error('Unsupported pricing function')
+    throw Errors.UnsupportedPricingFunction
   }
 
   makerLimitOrder.interaction = 
