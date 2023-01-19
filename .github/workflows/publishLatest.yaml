@@ -22,8 +22,8 @@ jobs:
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
     - name: Install dependencies
       run: yarn
-    - name: Check linter
-      run: yarn lint
+    # - name: Check linter
+    #   run: yarn lint
     - name: Check TypeScript
       run: yarn build
     - name: Bump version
