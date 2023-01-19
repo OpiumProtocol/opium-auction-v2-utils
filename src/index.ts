@@ -2,6 +2,7 @@ import { buildAuctionOrder, encodeOrder } from './build'
 import { EthersSignerConnector } from './connectors'
 import { getChartData, getCurrentPrice } from './charts'
 import { getRequiredTakerAmount } from './pricing'
+import { getRemainingAmount } from './calculations'
 import {
   BuildOrderParams, BuildAuctionParams,
   AuctionPricingDirection, AuctionPricingFunction
@@ -16,5 +17,6 @@ export {
   // Methods
   buildAuctionOrder, encodeOrder,
   getChartData, getCurrentPrice,
-  getRequiredTakerAmount
+  getRequiredTakerAmount,
+  getRemainingAmount
 }
