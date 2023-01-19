@@ -1,6 +1,6 @@
 {
   "name": "@opiumteam/opium-auction-v2-utils",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Utils library for Opium Auction V2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,9 +15,15 @@
     "build": "tsc",
     "publish-lib": "npm run build && npm publish",
     "publish-beta": "npm run build && npm publish --tag beta",
-    "publish-dryrun": "npm run build && npm publish --dry-run"
+    "publish-dryrun": "npm run build && npm publish --dry-run",
+    "test": "ts-mocha test/*.ts"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^10.0.0",
     "typescript": "^4.9.3"
   },
   "dependencies": {

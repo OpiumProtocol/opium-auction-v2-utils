@@ -1,9 +1,20 @@
-import { AuctionPricingDirection, AuctionPricingFunction, buildAuctionOrder, encodeOrder } from './build'
+import { buildAuctionOrder, encodeOrder } from './build'
 import { EthersSignerConnector } from './connectors'
 import { getChartData, getCurrentPrice } from './charts'
+import { getRequiredTakerAmount } from './pricing'
+import {
+  BuildOrderParams, BuildAuctionParams,
+  AuctionPricingDirection, AuctionPricingFunction
+} from './types'
 
 export {
-  AuctionPricingDirection, AuctionPricingFunction, buildAuctionOrder, encodeOrder,
+  // Types
+  BuildOrderParams, BuildAuctionParams,
+  AuctionPricingDirection, AuctionPricingFunction,
+  // Classes
   EthersSignerConnector,
+  // Methods
+  buildAuctionOrder, encodeOrder,
   getChartData, getCurrentPrice,
+  getRequiredTakerAmount
 }
